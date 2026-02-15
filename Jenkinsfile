@@ -17,6 +17,7 @@ pipeline {
                 echo '🛠 Building the application...'
                 // In a real project, this would be: sh './mvnw clean install'
                 sh 'echo "Simulating Maven Build..." && sleep 2'
+                sh 'docker --version'
             }
         }
 
