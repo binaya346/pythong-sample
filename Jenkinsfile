@@ -8,6 +8,7 @@ pipeline {
             steps {
                 echo '🚀 Starting the DevOps Pipeline...'
                 echo "Build Number: ${env.BUILD_NUMBER}"
+                echo "Git Branch: ${env.GIT_BRANCH ?: 'N/A'}"
             }
         }
 
