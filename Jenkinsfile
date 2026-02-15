@@ -32,13 +32,13 @@ pipeline {
         stage('Test') {
             steps {
                 echo '🧪 Running Unit Tests...'
-                sh 'python -c "print(\"✅ Tests Passed!\")"'
+                sh 'python -c "print(\"Tests Passed!\")"'
             }
         }
         
         stage('Deploy') {
             steps {
-                echo '📦 Deploying to Docker Hub...'
+                echo 'Deploying to Docker Hub...'
                 sh 'echo "Image Pushed Successfully"'
             }
         }
@@ -50,10 +50,10 @@ pipeline {
             echo 'Docker container will be automatically destroyed'
         }
         success {
-            echo '✅ Success: Pipeline completed in Docker agent!'
+            echo 'Success: Pipeline completed in Docker agent!'
         }
         failure {
-            echo '❌ Danger: The build failed!'
+            echo 'Danger: The build failed!'
         }
     }
 }
