@@ -1,33 +1,33 @@
 pipeline {
-    /* 1. Define where to run (any available agent) */
-    agent any
-
-    /* 2. Define the workflow stages */
+    agent {
+        docker {
+            image 'python:3.9'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
+    
     stages {
         stage('Initialize') {
             steps {
                 echo '🚀 Starting the DevOps Pipeline...'
                 echo "Build Number: ${env.BUILD_NUMBER}"
-                echo "Git Branch: ${env.GIT_BRANCH ?: 'N/A'}"
+                echo "Git Branch: ${env.BRANCH_NAME}"
+                sh 'echo "Container: $(hostname)"'  // This will show container ID
             }
         }
-
         stage('Build') {
             steps {
                 echo '🛠 Building the application...'
-                // In a real project, this would be: sh './mvnw clean install'
                 sh 'echo "Simulating Maven Build..." && sleep 2'
                 sh 'docker --version'
             }
         }
-
         stage('Test') {
             steps {
                 echo '🧪 Running Unit Tests...'
                 sh 'echo "Tests Passed!"'
             }
         }
-
         stage('Deploy') {
             steps {
                 echo '📦 Deploying to Docker Hub...'
@@ -35,8 +35,7 @@ pipeline {
             }
         }
     }
-
-    /* 3. Actions to take after the stages finish */
+    
     post {
         always {
             echo '🧹 Cleaning up workspace...'
