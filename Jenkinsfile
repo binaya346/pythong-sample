@@ -1,6 +1,9 @@
 pipeline {
     agent {
-        label 'docker-agent'
+        docker {
+            image 'python:3.9'
+            // Jenkins will handle this automatically
+        }
     }
     
     stages {
@@ -8,23 +11,31 @@ pipeline {
             steps {
                 echo '🚀 Starting the DevOps Pipeline...'
                 echo "Build Number: ${env.BUILD_NUMBER}"
-                echo "Git Branch: ${env.BRANCH_NAME}"
-                sh 'echo "Container: $(hostname)"'  // This will show container ID
+                echo "Git Branch: ${env.BRANCH_NAME ?: 'main'}"
+                sh '''
+                    echo "================================"
+                    echo "Running in Docker Agent:"
+                    echo "Container: $(hostname)"
+                    echo "Python: $(python --version)"
+                    echo "================================"
+                '''
             }
         }
+        
         stage('Build') {
             steps {
                 echo '🛠 Building the application...'
                 sh 'echo "Simulating Maven Build..." && sleep 2'
-                sh 'docker --version'
             }
         }
+        
         stage('Test') {
             steps {
                 echo '🧪 Running Unit Tests...'
-                sh 'echo "Tests Passed!"'
+                sh 'python -c "print(\"✅ Tests Passed!\")"'
             }
         }
+        
         stage('Deploy') {
             steps {
                 echo '📦 Deploying to Docker Hub...'
@@ -36,9 +47,10 @@ pipeline {
     post {
         always {
             echo '🧹 Cleaning up workspace...'
+            echo 'Docker container will be automatically destroyed'
         }
         success {
-            echo '✅ Success: Everything worked!'
+            echo '✅ Success: Pipeline completed in Docker agent!'
         }
         failure {
             echo '❌ Danger: The build failed!'
