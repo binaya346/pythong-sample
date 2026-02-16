@@ -8,6 +8,7 @@ pipeline {
             steps {
                 echo '🚀 Starting the DevOps Pipeline...'
                 echo "Build Number: ${env.BUILD_NUMBER}"
+                echo "Git Branch: ${env.GIT_BRANCH ?: 'N/A'}"
             }
         }
 
@@ -16,6 +17,7 @@ pipeline {
                 echo '🛠 Building the application...'
                 // In a real project, this would be: sh './mvnw clean install'
                 sh 'echo "Simulating Maven Build..." && sleep 2'
+                sh 'docker ps'
             }
         }
 
