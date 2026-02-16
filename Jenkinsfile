@@ -1,6 +1,8 @@
 pipeline {
     /* 1. Define where to run (any available agent) */
-    agent any
+    agent {
+        label 'docker-agent' 
+    }
 
     /* 2. Define the workflow stages */
     stages {
