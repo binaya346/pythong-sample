@@ -1,10 +1,10 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9'
-            // Jenkins will handle this automatically
-        }
-    }
+    // agent {
+    //     docker {
+    //         image 'python:3.9'
+    //     }
+    // }
+    agent any
     
     stages {
         stage('Initialize') {
@@ -32,7 +32,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo '🧪 Running Unit Tests...'
-                sh 'python -c "print(\"Tests Passed!\")"'
+                sh 'echo "Simulating Tests..." && sleep 2'
             }
         }
         
